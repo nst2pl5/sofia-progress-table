@@ -4,3 +4,96 @@
   padding: 2rem;
   text-align: center;
 }
+
+.layout {
+  margin: 0 auto;
+}
+
+.startButton {
+  font-size: 2.2em;
+  line-height: 1.1;
+  cursor: pointer;
+  background: #e3e3e3;
+  padding: 10px 20px;
+}
+
+.startButton:hover {
+  color: #646cff;
+}
+
+.identyBox {
+  margin-top: 16px;
+}
+
+.identyTitle {
+  font-size: 2.2em;
+  line-height: 1.1;
+}
+
+.identyButtons {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.identyButton {
+  font-size: 1.8em;
+  line-height: 1.1;
+  cursor: pointer;
+  background: #e3e3e3;
+  padding: 10px 20px;
+  margin: 0px 20px;
+}
+
+.identyButton:hover {
+  color: #646cff;
+}
+
+.x1ButtonsBox {
+  display: block;
+}
+
+.x1Button {
+  width: 80%;
+  margin: 0px auto;
+  font-size: 1.2em;
+  line-height: 1.1;
+  cursor: pointer;
+  background: #e3e3e3;
+  padding: 10px 20px;
+  margin: 16px 20px;
+}
+
+.x1Button:hover {
+  color: #646cff;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid #c0c4d6;
+  border-radius: 5px;
+  height: 22px;
+  margin: 1px 0px;
+  padding: 2px 5px;
+  color: #3e3e3e;
+}
+
+.input:focus {
+  border: 1px solid #a4b3c5;
+  box-shadow: 0px 0px 2px #a4b3c5;
+  outline: none !important
+}
+
+.input::placeholder {
+  font-size: 11px;
+}
+
+.imageBox {
+  width: 100%;
+  margin: 0px auto;
+}
+
+.image {
+  width: 100%;
+}
