@@ -97,3 +97,9 @@
 .image {
   width: 100%;
 }
+
+.back {
+  position: absolute;
+  top: 8px;
+  left: 8px
+}

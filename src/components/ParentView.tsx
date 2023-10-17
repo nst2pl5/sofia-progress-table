@@ -27,6 +27,7 @@ const ChildView: React.FC = () => {
         </div>
       }
 
+      <div className='back' onClick={() => location.reload()}>back</div>
     </>
   );
 };
