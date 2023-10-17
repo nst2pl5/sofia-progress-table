@@ -14,5 +14,20 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    "no-var": "error",
+    "semi": "error",
+    "eqeqeq": "error",
+    "indent": ["error", 2],
+    "no-multi-spaces": "error",
+    "space-in-parens": "error",
+    "no-multiple-empty-lines": "error",
+    "prefer-const": "error",
+    "no-use-before-define": "off",
+    /*"linebreak-style": ["error", "windows"],*/
+    "key-spacing": ["error", { "mode": "minimum" }],
+    "no-trailing-spaces": "error",
+    "jsx-a11y/alt-text": [0], // alt="" kontroll
+    "max-len": ["error", { "code": 120, "ignoreUrls": true, "ignoreStrings": true }],
+    "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
   },
 }
