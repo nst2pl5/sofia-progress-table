@@ -134,7 +134,7 @@ const App: React.FC = () => {
         </>
         }
 
-        <h1>{isSprint.sprint_target}</h1>
+        <h1>{isSprint.target}</h1>
 
         <div className='srintWrapper'>
           {isSprint.length && [...Array(+isSprint.length)].map((_item, i) =>
