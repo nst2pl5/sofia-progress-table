@@ -27,6 +27,7 @@ module.exports = {
     "key-spacing": ["error", { "mode": "minimum" }],
     "no-trailing-spaces": "error",
     "jsx-a11y/alt-text": [0], // alt="" kontroll
+    "@typescript-eslint/no-explicit-any": ["off"],
     "max-len": ["error", { "code": 120, "ignoreUrls": true, "ignoreStrings": true }],
     "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
   },
