@@ -156,7 +156,7 @@ const App: React.FC = () => {
                     className='targetDayButton'
                     onClick={() => handleDayTarget(logged && isSprint.status === "waiting" ? "parent" : "child")}
                   >
-                    {addDays(date, i).setHours(0,0,0,0) + " / " + new Date(today).setHours(new Date(today).getHours()) }
+                    {`${addDays(date, i).setHours(0,0,0,0)}  a/a  ${new Date(today).setHours(0,0,0,0)}` }
                     <img
                       className='smileImage'
                       src={
