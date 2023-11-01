@@ -150,7 +150,7 @@ const App: React.FC = () => {
                 addDays(date, i).setHours(0,0,0,0) > new Date(today).setHours(0,0,0,0) ?
                   <>
                     <img className='smileImage' src={calendarImg} />
-                    <span>{"Day after"}</span>
+                    <span>{"Coming day"}</span>
                   </> :
 
                   <div
