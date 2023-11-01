@@ -13,7 +13,7 @@ const App: React.FC = () => {
   const [isSprint, setSprint] = useState<any>({});
 
   const date = new Date(isSprint.date);
-  const today = (+new Date().getFullYear()) + "-" + (+new Date().getMonth() +1) + "-" + (+new Date().getDate());
+  const today = new Date((+new Date().getFullYear()) + "-" + (+new Date().getMonth() +1) + "-" + (+new Date().getDate()));
 
   const settingsArray = [
     {label: "Sprint target", id: "sprintTarget", type: "text"},
@@ -156,7 +156,7 @@ const App: React.FC = () => {
                     className='targetDayButton'
                     onClick={() => handleDayTarget(logged && isSprint.status === "waiting" ? "parent" : "child")}
                   >
-                    {`${addDays(date, i).setHours(0,0,0,0)}  a/a  ${new Date(today).setHours(0,0,0,0)}` }
+                    {`${addDays(date, i).setHours(0,0,0,0)}  b/b  ${new Date(today).setHours(0,0,0,0)}` }
                     <img
                       className='smileImage'
                       src={
