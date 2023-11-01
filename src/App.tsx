@@ -64,10 +64,6 @@ const App: React.FC = () => {
       });
   };
 
-  const addDays = (date: any, number: any) => {
-    return new Date(date.setDate(date.getDate() + number));
-  };
-
   const handleDayTarget = (type: any) => {
     fetch("https://niki-workplace.ee/smot/index.php", {
       method: "post",
@@ -86,6 +82,10 @@ const App: React.FC = () => {
       .catch(function(err) {
         console.log("Failed to fetch page: ", err);
       });
+  };
+
+  const addDays = (date: any, number: any) => {
+    return new Date(date.setDate(date.getDate() + number));
   };
 
   const db = {
@@ -156,7 +156,7 @@ const App: React.FC = () => {
                     className='targetDayButton'
                     onClick={() => handleDayTarget(logged && isSprint.status === "waiting" ? "parent" : "child")}
                   >
-                    {addDays(date, i).setHours(0,0,0,0) + " / " + (+new Date(today.replace(" ", "T")).setHours(0,0,0,0)) }
+                    {addDays(date, i).setHours(0,0,0,0) + " / " + new Date(today).setHours(new Date(today).getHours()) }
                     <img
                       className='smileImage'
                       src={
