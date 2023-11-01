@@ -65,8 +65,7 @@ const App: React.FC = () => {
   };
 
   const addDays = (date: any, number: any) => {
-    const newDate = new Date(date);
-    return new Date(newDate.setDate(date.getDate() + number));
+    return new Date(date.setDate(date.getDate() + number));
   };
 
   const handleDayTarget = (type: any) => {
