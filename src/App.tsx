@@ -140,13 +140,13 @@ const App: React.FC = () => {
             <div key={i} className='sprintItem'>
               <pre className='dateFont'>{addDays(date, i).toLocaleDateString()}</pre>
 
-              {addDays(date, i).setHours(0,0,0,0) < new Date(today).setHours(0,0,0,0) ?
+              {addDays(date, i).setHours(0,0,0,0) < new Date().setHours(0,0,0,0) ?
                 <>
                   <img className='smileImage' src={happyImg} />
                   <span>{"Day before"}</span>
                 </> :
 
-                addDays(date, i).setHours(0,0,0,0) > new Date(today).setHours(0,0,0,0) ?
+                addDays(date, i).setHours(0,0,0,0) > new Date().setHours(0,0,0,0) ?
                   <>
                     <img className='smileImage' src={calendarImg} />
                     <span>{"Coming day"}</span>
@@ -156,8 +156,12 @@ const App: React.FC = () => {
                     className='targetDayButton'
                     onClick={() => handleDayTarget(logged && isSprint.status === "waiting" ? "parent" : "child")}
                   >
-                    {`${addDays(date, i).setHours(0,0,0,0)} 
-                     b/b  ${new Date(today).setHours(0,0,0,0)} c/c ${new Date().setHours(0,0,0,0)}` }
+                    {
+                      `${addDays(date, i).setHours(0,0,0,0)} 
+                      b/b  ${new Date(today).setHours(0,0,0,0)} 
+                      c/c ${new Date().setHours(0,0,0,0)}`
+                    }
+
                     <img
                       className='smileImage'
                       src={
