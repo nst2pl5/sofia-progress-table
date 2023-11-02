@@ -182,6 +182,7 @@ const App: React.FC = () => {
                 c/c ${new Date().setHours(0,0,0,0)}
                 `
               }
+
               <div>
                 {`${Math.floor(addDays(date, i).getTime() / 1000)} -/- ${Math.floor(new Date().getTime() / 1000)}`}
               </div>
