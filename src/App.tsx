@@ -15,7 +15,7 @@ const App: React.FC = () => {
   const date = new Date(isSprint.date);
   /* const today = new Date((+new Date().getFullYear()) + "-" + (+new Date().getMonth() +1) + "-" + (+new Date().getDate())); */
   /* const today = (new Date().getMonth() +1) + "/" + (new Date().getDate()) + "/" + new Date().getFullYear(); */
-  const today = new Date(new Date().getFullYear() + "-" + (new Date().getMonth() +1) + "-" + (new Date().getDate()));
+  const today = new Date().getFullYear() + "-" + (new Date().getMonth() +1) + "-" + (new Date().getDate());
 
   const settingsArray = [
     {label: "Sprint target", id: "sprintTarget", type: "text"},
