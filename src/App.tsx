@@ -172,6 +172,12 @@ const App: React.FC = () => {
                   </div>
               }
 
+              {
+                `${addDays(date, i).setHours(0,0,0,0)} 
+                b/b  ${new Date(today).setHours(0,0,0,0)} 
+                c/c ${new Date().setHours(0,0,0,0)}`
+              }
+
             </div>
           )}
         </div>
