@@ -13,6 +13,8 @@ const App: React.FC = () => {
   const [isSettings, setSettings] = useState({mode: "set", sprintTarget: "", sprintLength: "", startDate: ""});
   const [isSprint, setSprint] = useState<any>({});
 
+  const [isViewType, setViewType] = useState("");
+
   const today = new Date((new Date().getMonth() +1) + "/" + (new Date().getDate()) + "/" + new Date().getFullYear()).setHours(0,0,0,0);
 
   const settingsArray = [
@@ -91,10 +93,32 @@ const App: React.FC = () => {
   return (
     <>
       {!startModalOpen &&
-        <div className="startButton" onClick={() => setStartModalOpen(!startModalOpen)}>Let's start </div>
+        <div className="startButton" onClick={() => setStartModalOpen(!startModalOpen)}>{"Let's start"}</div>
       }
 
       {startModalOpen &&
+        <div className='buttonsWrapper'>
+          <div className='typeButton' onClick={() => setViewType("Sofia")}>{"Sofia"}</div>
+          <div className='typeButton' onClick={() => setViewType("Mom")}>{"Mom"}</div>
+        </div>
+      }
+
+      {isViewType === "Sofia" &&
+        <>
+          <div
+            className='targetDayButton'
+            onClick={() => handleDayTarget("child")}
+          >
+            <img
+              className='smileImage'
+              src={isSprint.status === "null" ? enterImg : isSprint.status === "waiting" ? waitingImg : happyImg}
+            />
+            <span className='waiting'>🕒</span>
+          </div>
+        </>
+      }
+
+      {isViewType === "Mom" &&
         <>
           {!logged &&
           <div className='settingsContainer'>
@@ -118,59 +142,47 @@ const App: React.FC = () => {
                     />
                   </div>
                 )}
+
                 <div className='close' onClick={() => setLogged(false)}>close</div>
               </div>
+
               <div className='setButton' onClick={() => setData()}>Push</div>
             </>
           }
-
-          <h1>{isSprint.target}</h1>
-
-          <div className='srintWrapper'>
-            <div
-              className='targetDayButton'
-              onClick={() => handleDayTarget(logged && isSprint.status === "waiting" ? "parent" : "child")}
-            >
-              <img
-                className='smileImage'
-                src={
-                  isSprint.status === "null" ? enterImg : isSprint.status === "waiting" ? waitingImg : happyImg
-                }
-              />
-              <span>{"Today"}</span>
-            </div>
-          </div>
         </>
       }
 
-      <div className='infoTable'>
-        {isSprint.length && [...Array(+isSprint.length)].map((_item, i) =>
-          <Fragment key={i + "table2"}>
-            {addDays(new Date(isSprint.date), i) < new Date(today).getTime() ?
-              <div key={i + "item"}>
-                <img className='smileImage' src={happyImg} />
-                <img className='done' src={doneImg} />
-              </div> :
+      {(isViewType === "Mom" || isViewType === "Sofia") &&
+        <>
+          <h1>{isSprint.target}</h1>
+          <div className='infoTable'>
+            {isSprint.length && [...Array(+isSprint.length)].map((_item, i) =>
+              <Fragment key={i + "table2"}>
+                {addDays(new Date(isSprint.date), i) < new Date(today).getTime() ?
+                  <div key={i + "item"}>
+                    <img className='smileImage' src={happyImg} />
+                    <img className='done' src={doneImg} />
+                  </div> :
 
-              addDays(new Date(isSprint.date), i) > new Date(today).getTime() ?
-                <div key={i + "item"}>
-                  <img className='smileImage' src={calendarImg} />
-                </div> :
+                  addDays(new Date(isSprint.date), i) > new Date(today).getTime() ?
+                    <div key={i + "item"}>
+                      <img className='smileImage' src={calendarImg} />
+                    </div> :
 
-                <div key={i + "item"}>
-                  <img
-                    className='smileImage'
-                    src={
-                      isSprint.status === "null" ? enterImg : isSprint.status === "waiting" ? waitingImg : happyImg
-                    }
-                  />
-                </div>
-            }
-          </Fragment>
-        )}
-      </div>
-
-      {`${addDays(new Date(isSprint.date), 0)} --/- ${new Date(today).getTime()}`}
+                    <div key={i + "item"}>
+                      <img
+                        className='smileImage'
+                        src={
+                          isSprint.status === "null" ? enterImg : isSprint.status === "waiting" ? waitingImg : happyImg
+                        }
+                      />
+                    </div>
+                }
+              </Fragment>
+            )}
+          </div>
+        </>
+      }
     </>
   );
 };
