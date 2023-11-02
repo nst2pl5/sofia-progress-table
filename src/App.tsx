@@ -13,7 +13,7 @@ const App: React.FC = () => {
   const [isSettings, setSettings] = useState({mode: "set", sprintTarget: "", sprintLength: "", startDate: ""});
   const [isSprint, setSprint] = useState<any>({});
 
-  const today = new Date(new Date().getFullYear() + "-" + (new Date().getMonth() +1) + "-" + (new Date().getDate())).setHours(0,0,0,0);
+  const today = new Date((new Date().getMonth() +1) + "-" + (new Date().getDate()) + "-" + new Date().getFullYear()).setHours(0,0,0,0);
 
   const settingsArray = [
     {label: "Sprint target", id: "sprintTarget", type: "text"},
