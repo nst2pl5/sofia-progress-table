@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import happyImg from './assets/gold-star.png';
 import calendarImg from './assets/star.png';
 import enterImg from './assets/smiling.png';
 import waitingImg from './assets/happy.png';
+import doneImg from './assets/done.png';
 import './App.css';
 
 const App: React.FC = () => {
@@ -12,11 +13,7 @@ const App: React.FC = () => {
   const [isSettings, setSettings] = useState({mode: "set", sprintTarget: "", sprintLength: "", startDate: ""});
   const [isSprint, setSprint] = useState<any>({});
 
-  const date = new Date(isSprint.date);
-  /* const today =
-    new Date((+new Date().getFullYear()) + "-" + (+new Date().getMonth() +1) + "-" + (+new Date().getDate())); */
-  /* const today = (new Date().getMonth() +1) + "/" + (new Date().getDate()) + "/" + new Date().getFullYear(); */
-  /* const today = new Date().getFullYear() + "-" + (new Date().getMonth() +1) + "-" + (new Date().getDate()); */
+  const today = new Date(new Date().getFullYear() + "-" + (new Date().getMonth() +1) + "-" + (new Date().getDate())).setHours(0,0,0,0);
 
   const settingsArray = [
     {label: "Sprint target", id: "sprintTarget", type: "text"},
@@ -88,17 +85,8 @@ const App: React.FC = () => {
   };
 
   const addDays = (date: any, number: any) => {
-    return new Date(date.setDate(date.getDate() + number));
+    return new Date(date.setDate(date.getDate() + number)).setHours(0,0,0,0);
   };
-
-  const db = {
-    user: "d115507sa476123",
-    pass: "MbRCs8VJ6Heda93i57",
-    path: "d115507.mysql.zonevs.eu",
-    name: "d115507sd525891"
-  };
-
-  db;
 
   return (
     <>
@@ -107,90 +95,82 @@ const App: React.FC = () => {
       }
 
       {startModalOpen &&
-      <>
-        {!logged &&
-        <div className='settingsContainer'>
-          <div className='inputBox'>
-            <label htmlFor="pass">{"Mom pass: "}</label>
-            <input id='pass' type="text" className='input' onChange={(e) => setPass(e.target.value)} />
-          </div>
-        </div>
-        }
-
-        {logged &&
         <>
+          {!logged &&
           <div className='settingsContainer'>
-            <h2 className='parrentViewTitle'>{"Set settings"}</h2>
-
-            {settingsArray.map((item) =>
-              <div key={item.id} className='inputBox'>
-                <label htmlFor={item.id}>{item.label}</label>
-                <input id={item.id} type={item.type} className='input'
-                  onChange={(e) => setSettings({...isSettings, [item.id]: e.target.value})}
-                />
-              </div>
-            )}
-            <div className='close' onClick={() => setLogged(false)}>close</div>
-          </div>
-          <div className='setButton' onClick={() => setData()}>Push</div>
-        </>
-        }
-
-        <h1>{isSprint.target}</h1>
-
-        <div className='srintWrapper'>
-          {isSprint.length && [...Array(+isSprint.length)].map((_item, i) =>
-            <div key={i} className='sprintItem'>
-              <pre className='dateFont'>{addDays(date, i).toLocaleDateString()}</pre>
-
-              {addDays(date, i).setHours(0,0,0,0) < new Date().setHours(0,0,0,0) ?
-                <>
-                  <img className='smileImage' src={happyImg} />
-                  <span>{"Day before"}</span>
-                </> :
-
-                addDays(date, i).setHours(0,0,0,0) > new Date().setHours(0,0,0,0) ?
-                  <>
-                    <img className='smileImage' src={calendarImg} />
-                    <span>{"Coming day"}</span>
-                  </> :
-
-                  <div
-                    className='targetDayButton'
-                    onClick={() => handleDayTarget(logged && isSprint.status === "waiting" ? "parent" : "child")}
-                  >
-                    {
-                      `${addDays(date, i).setHours(0,0,0,0)} 
-                      b/b  ${new Date().setHours(0,0,0,0)} 
-                      c/c ${new Date().setHours(0,0,0,0)}`
-                    }
-
-                    <img
-                      className='smileImage'
-                      src={
-                        isSprint.status === "null" ? enterImg : isSprint.status === "waiting" ? waitingImg : happyImg
-                      }
-                    />
-                    <span>{"Today"}</span>
-                  </div>
-              }
-
-              {
-                `
-                ${addDays(date, i).setHours(0,0,0,0)} 
-                b/b  ${new Date().setHours(0,0,0,0)} 
-                c/c ${new Date().setHours(0,0,0,0)}
-                `
-              }
-
-              <div>
-                {`${Math.floor(addDays(date, i).getTime() / 1000)} -/- ${Math.floor(new Date().getTime() / 1000)}`}
-              </div>
+            <div className='inputBox'>
+              <label htmlFor="pass">{"Mom pass: "}</label>
+              <input id='pass' type="text" className='input' onChange={(e) => setPass(e.target.value)} />
             </div>
-          )}
-        </div>
-      </>
+          </div>
+          }
+
+          {logged &&
+            <>
+              <div className='settingsContainer'>
+                <h2 className='parrentViewTitle'>{"Set settings"}</h2>
+
+                {settingsArray.map((item) =>
+                  <div key={item.id} className='inputBox'>
+                    <label htmlFor={item.id}>{item.label}</label>
+                    <input id={item.id} type={item.type} className='input'
+                      onChange={(e) => setSettings({...isSettings, [item.id]: e.target.value})}
+                    />
+                  </div>
+                )}
+                <div className='close' onClick={() => setLogged(false)}>close</div>
+              </div>
+              <div className='setButton' onClick={() => setData()}>Push</div>
+            </>
+          }
+
+          <h1>{isSprint.target}</h1>
+
+          <div className='srintWrapper'>
+            <div
+              className='targetDayButton'
+              onClick={() => handleDayTarget(logged && isSprint.status === "waiting" ? "parent" : "child")}
+            >
+              <img
+                className='smileImage'
+                src={
+                  isSprint.status === "null" ? enterImg : isSprint.status === "waiting" ? waitingImg : happyImg
+                }
+              />
+              <span>{"Today"}</span>
+            </div>
+          </div>
+        </>
       }
+
+      <div className='infoTable'>
+        {isSprint.length && [...Array(+isSprint.length)].map((_item, i) =>
+          <Fragment key={i + "table2"}>
+            {addDays(new Date(isSprint.date), i) < new Date(today).getTime() ?
+              <div key={i + "item"}>
+                <img className='smileImage' src={happyImg} />
+                <img className='done' src={doneImg} />
+              </div> :
+
+              addDays(new Date(isSprint.date), i) > new Date(today).getTime() ?
+                <div key={i + "item"}>
+                  <img className='smileImage' src={calendarImg} />
+                </div> :
+
+                <div key={i + "item"}>
+                  <img
+                    className='smileImage'
+                    src={
+                      isSprint.status === "null" ? enterImg : isSprint.status === "waiting" ? waitingImg : happyImg
+                    }
+                  />
+                </div>
+            }
+          </Fragment>
+        )}
+      </div>
+
+
     </>
   );
 };
