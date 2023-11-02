@@ -174,13 +174,13 @@ const App: React.FC = () => {
                   </div>
               }
 
-             {/*  {
+              {
                 `${addDays(date, i).setHours(0,0,0,0)} 
                 b/b  ${new Date(today).setHours(0,0,0,0)} 
                 c/c ${new Date().setHours(0,0,0,0)}`
-              } */}
+              }
 
-              <div>{`${Math.floor(addDays(date, i).getTime() / 1000)} -/- ${Math.floor(date2.getTime(today) / 1000)}`}</div>
+              {/* {`${Math.floor(addDays(date, i).getTime() / 1000)} -/- ${Math.floor(date2.getTime(today) / 1000)}`} */}
 
             </div>
           )}
