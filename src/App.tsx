@@ -14,7 +14,8 @@ const App: React.FC = () => {
 
   const date = new Date(isSprint.date);
   /* const today = new Date((+new Date().getFullYear()) + "-" + (+new Date().getMonth() +1) + "-" + (+new Date().getDate())); */
-  const today = (new Date().getMonth() +1) + "/" + (new Date().getDate()) + "/" + new Date().getFullYear();
+  /* const today = (new Date().getMonth() +1) + "/" + (new Date().getDate()) + "/" + new Date().getFullYear(); */
+  const today = new Date(new Date().getFullYear() + "-" + (new Date().getMonth() +1) + "-" + (new Date().getDate()));
 
   const settingsArray = [
     {label: "Sprint target", id: "sprintTarget", type: "text"},
@@ -174,14 +175,16 @@ const App: React.FC = () => {
               }
 
               {
-                `${addDays(date, i).setHours(0,0,0,0)} 
+               {/*  `${addDays(date, i).setHours(0,0,0,0)} 
                 b/b  ${new Date(today).setHours(0,0,0,0)} 
-                c/c ${new Date().setHours(0,0,0,0)}`
+                c/c ${new Date().setHours(0,0,0,0)}` */}
               }
 
             </div>
           )}
         </div>
+
+        {`${Math.floor(addDays(date, i).getTime() / 1000)} -/- ${Math.floor(date2.getTime(today) / 1000)}`}
       </>
       }
     </>
