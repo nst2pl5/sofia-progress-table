@@ -170,7 +170,7 @@ const App: React.FC = () => {
         )}
       </div>
 
-
+      {`${addDays(new Date(isSprint.date), 0)} --/- ${new Date(today).getTime()}`}
     </>
   );
 };
