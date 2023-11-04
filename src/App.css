@@ -89,24 +89,32 @@
 }
 
 .input {
-  width: 80%;
-  border: 1px solid #c0c4d6;
+  width: 70%;
+  border: 4px solid rgb(112, 112, 218);
   border-radius: 5px;
   height: 22px;
   margin: 1px 0px;
-  padding: 16px 5px;
+  padding: 1.5rem .5rem;
   color: #3e3e3e;
   font-size: 24px;
+  color: rgb(112, 112, 218);
+  font-weight: 600;
 }
 
 .input:focus {
-  border: 1px solid #a4b3c5;
+  border: 4px solid #a4b3c5;
   box-shadow: 0px 0px 2px #a4b3c5;
   outline: none !important
 }
 
 .input::placeholder {
   font-size: 11px;
+}
+
+label {
+  font-size: 28px;
+  color: rgb(112, 112, 218);
+  font-weight: 800;
 }
 
 .imageBox {
@@ -216,7 +224,7 @@
   position: relative;
 }
 
-.dateFont {
+.date {
   font-size: 10px;
   font-weight: 400;
   color: #3e3e3e;
@@ -322,6 +330,99 @@
 }
 
 .typeButton:hover {
+  background: #fff;
+  color: pink;
+}
+
+.popupLayout {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0, .7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popupWrapper {
+  width: 90%;
+  min-height: 80%;
+  background: #fff;
+  border-radius: 25px;
+  border: 4px solid pink;
+  text-align: start;
+  padding: 2rem;
+  position: relative;
+}
+
+.printsesImage {
+  width: 30%;
+  float: left;
+  margin: 0 2rem 1rem 0;
+}
+
+.popupText {
+  font-size: 45px;
+  font-weight: 600;
+  color: a595e4;
+  line-height: 1.5;
+  text-shadow: 2px 0 pink, -2px 0 pink, 0 2px pink, 0 -2px pink,
+               1px 1px pink, -1px -1px pink, 1px -1px pink, -1px 1px pink;
+}
+
+.popupClose {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  font-size: 32px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  background: pink;
+  padding: 1rem 3rem;
+  border: 4px solid pink;
+  border-radius: 25px;
+}
+
+.popupClose:hover {
+  background: #fff;
+  color: pink;
+}
+
+.settingsBlockButton {
+  width: 90%;
+  margin: auto;
+  font-size: 32px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  background: rgb(112, 112, 218);
+  padding: .5rem 2rem;
+  border: 4px solid rgb(112, 112, 218);
+  border-radius: 5px;
+}
+
+.settingsBlockButton:hover {
+  background: #fff;
+  color: rgb(112, 112, 218);
+}
+
+.confirmButton {
+  width: 90%;
+  margin: 1rem auto;
+  font-size: 32px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  background: pink;
+  padding: 1rem 3rem;
+  border: 4px solid pink;
+  border-radius: 25px;
+}
+
+.confirmButton:hover {
   background: #fff;
   color: pink;
 }

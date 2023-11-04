@@ -1,10 +1,15 @@
 import { Fragment, useEffect, useState } from 'react';
+
 import happyImg from './assets/gold-star.png';
 import calendarImg from './assets/star.png';
 import enterImg from './assets/smiling.png';
 import waitingImg from './assets/happy.png';
 import doneImg from './assets/done.png';
+import princesImg from './assets/printses.png';
+
 import './App.css';
+
+import Sound from 'react-sound';
 
 const App: React.FC = () => {
   const [startModalOpen, setStartModalOpen] = useState(false);
@@ -12,14 +17,18 @@ const App: React.FC = () => {
   const [logged, setLogged] = useState(false);
   const [isSettings, setSettings] = useState({mode: "set", sprintTarget: "", sprintLength: "", startDate: ""});
   const [isSprint, setSprint] = useState<any>({});
-
   const [isViewType, setViewType] = useState("");
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [isAudioWaiting, setAudioWaiting] = useState(false);
+  const [isAudioDone, setAudioDone] = useState(false);
+  const [isAudioMe, setAudioMe] = useState(false);
+  const [isSettingsBlockOpen, setSettingsBlockOpen] = useState(false);
 
   const today = new Date((new Date().getMonth() +1) + "/" + (new Date().getDate()) + "/" + new Date().getFullYear()).setHours(0,0,0,0);
 
   const settingsArray = [
-    {label: "Sprint target", id: "sprintTarget", type: "text"},
-    {label: "Sprint length", id: "sprintLength", type: "number"},
+    {label: "Target", id: "sprintTarget", type: "text"},
+    {label: "Length", id: "sprintLength", type: "number"},
     {label: "Start day", id: "startDate", type: "date"}
   ];
 
@@ -49,7 +58,6 @@ const App: React.FC = () => {
   const setData = () => {
     fetch("https://niki-workplace.ee/smot/index.php", {
       method: "post",
-      mode: "no-cors",
       headers: {
         "Content-Type": "application/json"
       },
@@ -59,7 +67,7 @@ const App: React.FC = () => {
         return response.json();
       })
       .then(json => {
-        console.log(json);
+        setSprint(json);
       })
       .catch(function(err) {
         console.log("Failed to fetch page: ", err);
@@ -69,7 +77,6 @@ const App: React.FC = () => {
   const handleDayTarget = (type: any) => {
     fetch("https://niki-workplace.ee/smot/index.php", {
       method: "post",
-      mode: "no-cors",
       headers: {
         "Content-Type": "application/json"
       },
@@ -90,6 +97,39 @@ const App: React.FC = () => {
     return new Date(date.setDate(date.getDate() + number)).setHours(0,0,0,0);
   };
 
+  const Typewriter = ({ text, delay }: any) => {
+    const [currentText, setCurrentText] = useState('');
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+      if (currentIndex < text.length) {
+        const timeout = setTimeout(() => {
+          setCurrentText(prevText => prevText + text[currentIndex]);
+          setCurrentIndex(prevIndex => prevIndex + 1);
+        }, delay);
+
+        return () => clearTimeout(timeout);
+      }
+    }, [currentIndex, delay, text]);
+
+    return <span>{currentText}</span>;
+  };
+
+  const AudioWaiting = () => {
+    setAudioWaiting(true);
+    setTimeout(() => setAudioWaiting(false), 3000);
+  };
+
+  const AudioDone = () => {
+    setAudioDone(true);
+    setTimeout(() => setAudioDone(false), 4000);
+  };
+
+  const AudioMe = () => {
+    setAudioMe(true);
+    setTimeout(() => setAudioMe(false), 12000);
+  };
+
   return (
     <>
       {!startModalOpen &&
@@ -103,19 +143,34 @@ const App: React.FC = () => {
         </div>
       }
 
-      {isViewType === "Sofia" &&
+      {isViewType === "Sofia" && isSprint &&
         <>
           <div
             className='targetDayButton'
-            onClick={() => handleDayTarget("child")}
+            onClick={() => {
+              isSprint.status === "null" && setPopupOpen(true);
+              isSprint.status === "null" && handleDayTarget("child");
+              isSprint.status === "waiting" && AudioWaiting();
+              isSprint.status === "" && AudioDone();
+            }}
           >
+
             <img
               className='smileImage'
               src={isSprint.status === "null" ? enterImg : isSprint.status === "waiting" ? waitingImg : happyImg}
             />
-            <span className='waiting'>🕒</span>
+
+            {isSprint.status === "waiting" && <span className='waiting'>🕒</span>}
           </div>
         </>
+      }
+
+      {isAudioWaiting &&
+        <Sound url={'https://www.niki-workplace.ee/smot/audio2.m4a'} playStatus={'PLAYING'} />
+      }
+
+      {isAudioDone &&
+        <Sound url={'https://www.niki-workplace.ee/smot/audio3.m4a'} playStatus={'PLAYING'} />
       }
 
       {isViewType === "Mom" &&
@@ -123,7 +178,7 @@ const App: React.FC = () => {
           {!logged &&
           <div className='settingsContainer'>
             <div className='inputBox'>
-              <label htmlFor="pass">{"Mom pass: "}</label>
+              <label className='label' htmlFor="pass">{"Pass: "}</label>
               <input id='pass' type="text" className='input' onChange={(e) => setPass(e.target.value)} />
             </div>
           </div>
@@ -131,57 +186,110 @@ const App: React.FC = () => {
 
           {logged &&
             <>
-              <div className='settingsContainer'>
-                <h2 className='parrentViewTitle'>{"Set settings"}</h2>
-
-                {settingsArray.map((item) =>
-                  <div key={item.id} className='inputBox'>
-                    <label htmlFor={item.id}>{item.label}</label>
-                    <input id={item.id} type={item.type} className='input'
-                      onChange={(e) => setSettings({...isSettings, [item.id]: e.target.value})}
-                    />
-                  </div>
-                )}
-
-                <div className='close' onClick={() => setLogged(false)}>close</div>
+              <div className='settingsBlockButton' onClick={() => setSettingsBlockOpen(!isSettingsBlockOpen)}>
+                {"New sprint"}
               </div>
 
-              <div className='setButton' onClick={() => setData()}>Push</div>
+              {isSettingsBlockOpen &&
+                <div className='settingsBlock'>
+                  <div className='settingsContainer'>
+                    <h2 className='parrentViewTitle'>{"Add/Change"}</h2>
+
+                    {settingsArray.map((item) =>
+                      <div key={item.id} className='inputBox'>
+                        <label htmlFor={item.id}>{item.label}</label>
+                        <input id={item.id} type={item.type} className='input'
+                          onChange={(e) => setSettings({...isSettings, [item.id]: e.target.value})}
+                        />
+                      </div>
+                    )}
+
+                    <div className='close' onClick={() => setLogged(false)}>LogOut</div>
+                  </div>
+
+                  <div className='setButton' onClick={() => setData()}>Push</div>
+                </div>
+              }
+
+              {isSprint.status === "waiting" &&
+                  <div
+                    className='confirmButton'
+                    onClick={() => {
+                      handleDayTarget("parent");
+                      AudioMe();
+                    }}
+                  >{"Confirm day target"}</div>
+              }
             </>
           }
         </>
       }
 
-      {(isViewType === "Mom" || isViewType === "Sofia") &&
+      {isAudioMe && <Sound url={'https://www.niki-workplace.ee/smot/audio4.mp3'} playStatus={'PLAYING'} />}
+
+      {(isViewType === "Mom" || isViewType === "Sofia") && isSprint &&
         <>
           <h1>{isSprint.target}</h1>
           <div className='infoTable'>
             {isSprint.length && [...Array(+isSprint.length)].map((_item, i) =>
               <Fragment key={i + "table2"}>
-                {addDays(new Date(isSprint.date), i) < new Date(today).getTime() ?
-                  <div key={i + "item"}>
-                    <img className='smileImage' src={happyImg} />
-                    <img className='done' src={doneImg} />
-                  </div> :
+                <div key={i + "item"}>
 
-                  addDays(new Date(isSprint.date), i) > new Date(today).getTime() ?
-                    <div key={i + "item"}>
-                      <img className='smileImage' src={calendarImg} />
-                    </div> :
+                  <pre className='date'>
+                    {new Date(
+                      new Date(isSprint.date).setDate(new Date(isSprint.date).getDate() + i)
+                    ).toLocaleDateString()}
+                  </pre>
 
-                    <div key={i + "item"}>
-                      <img
-                        className='smileImage'
-                        src={
-                          isSprint.status === "null" ? enterImg : isSprint.status === "waiting" ? waitingImg : happyImg
-                        }
-                      />
-                    </div>
-                }
+                  {addDays(new Date(isSprint.date), i) < new Date(today).getTime() ?
+                    <>
+                      <img className='smileImage' src={happyImg} />
+                      <img className='done' src={doneImg} />
+                    </>
+                    :
+
+                    addDays(new Date(isSprint.date), i) > new Date(today).getTime() ?
+                      <>
+                        <img className='smileImage' src={calendarImg} />
+                      </>
+                      :
+                      <>
+                        <img
+                          className='smileImage'
+                          src={
+                            isSprint.status === "null" ? enterImg : isSprint.status === "waiting" ? waitingImg : happyImg
+                          }
+                        />
+                        {isSprint.status === "" && <img className='done' src={doneImg} />}
+                      </>
+
+                  }
+                </div>
               </Fragment>
             )}
           </div>
         </>
+      }
+
+      {isPopupOpen &&
+        <div className='popupLayout'>
+          <div className='popupWrapper'>
+            <img className='printsesImage' src={princesImg} />
+
+            <span className='popupText'>
+              <Typewriter
+                text="Ура... Молодец, похоже ты справилась с сегоднешним заданием, попроси маму подтвердить."
+                delay={60}
+              />
+            </span>
+
+            <Sound url={'https://www.niki-workplace.ee/smot/audio.m4a'} playStatus={'PLAYING'} />
+
+            <div onClick={() => setPopupOpen(false)} className='popupClose'>
+              {"OK"}
+            </div>
+          </div>
+        </div>
       }
     </>
   );
